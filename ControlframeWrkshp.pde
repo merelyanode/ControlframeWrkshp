@@ -10,6 +10,8 @@
  *
  */
 
+//using this sketch to troubleshoot controlframe issues for TwoWindowsTwo
+
 import java.awt.Frame;
 import java.awt.BorderLayout;
 import controlP5.*;
