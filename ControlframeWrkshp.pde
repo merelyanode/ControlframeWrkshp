@@ -11,16 +11,22 @@
  */
 
 //using this sketch to troubleshoot controlframe issues for TwoWindowsTwo
-
+//This is what success looks like!!!!!
 import java.awt.Frame;
 import java.awt.BorderLayout;
-import controlP5.*;
-
-private ControlP5 cp5;
-
+import controlP5.*;//P5
+import java.util.Date;
+private ControlP5 cp5;//P5
 ControlFrame cf;
-
 int def;
+PImage img_1; //P5
+PImage img_2; //P5
+PImage img_3;//P5
+
+//String textValue = "";//P5
+//String timestamp;//P5
+//int i;
+ 
 
 void setup() {
   size(400, 400,P3D);
