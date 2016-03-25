@@ -26,11 +26,34 @@ int def;
 PImage img_1; //P5
 PImage img_2; //P5
 PImage img_3;//P5
-
 //String textValue = "";//P5
 //String timestamp;//P5
 //int i;
- 
+int cell = 10; // diameter of particles
+
+// UNDO: SPHERE MYSPHERE | CONTROLPOIN.CP |
+
+float radius = 140; // radius of large sphere
+int num = 300; // number of spheres
+
+//color bg = color(212, 237, 244); // default background color
+color bg = color(0, 0, 0); // default background color
+PImage[] backdrop = new PImage[2]; // array of background images
+int backdropIndex = 0; // start with the first backdrop in the array
+
+//Sphere mySphere; // the main actor, container for all the little particles
+float xPos, yPos, zPos; // coordinates of centre of large sphere
+//ControlPoint cp; // its position at any point determines position of the sphere
+//   In LOOPING mode, the control point:
+//   -- turns on a fixed circle
+//   -- does not respond to mouse movements
+//   In CONTROLLING mode, the control point:
+//   -- works like a bouncing ball (reflecting off the sides of the frame)
+//   -- responds to mouse movements
+int LOOPING = 0;
+int CONTROLLING = 1;
+
+int movCounter = 1501;
 
 void setup() {
   size(1500, 800);
