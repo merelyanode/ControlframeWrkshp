@@ -31,7 +31,7 @@ PImage img_3;//P5
 //int i;
 int cell = 10; // diameter of particles
 
-// UNDO: SPHERE MYSPHERE | CONTROLPOIN.CP |
+// UNDO: SPHERE MYSPHERE | CONTROLPOINT.CP |CP = NEW | SPHERE - NEW | SHPERE.ADD
 
 float radius = 140; // radius of large sphere
 int num = 300; // number of spheres
@@ -61,7 +61,8 @@ void setup() {
   img_1 = loadImage("roar2.png");
   img_2 = loadImage("theQuestion.png");
   img_3 = loadImage("instructions.png");
-  cf = addControlFrame("extra", 1080,720);
+ 
+  cf = addControlFrame("extra", 1920,1200);
   cp5 = new ControlP5(this);
   PFont font = createFont("arial",20);//P5
   cp5 = new ControlP5(this);//P5
@@ -150,24 +151,33 @@ public class ControlFrame extends PApplet {
   
   public void setup() {
     size(w, h,P3D);
-    frameRate(25);
-   // cp5 = new ControlP5(this);
-    //cp5.addSlider("abc").setRange(0, 255).setPosition(10,10);
-   // cp5.addSlider("def").plugTo(parent,"def").setRange(0, 255).setPosition(10,30);
+    smooth();
+    noStroke();
+    lights();
+    //backdrop[0] = loadImage("201011-tagline-00-1024x768.png");
+    //backdrop[1] = loadImage("20100920-1024x768.png");
+
+    xPos = 550;
+    yPos = 330;
+    zPos = 370;
+    //mySphere = new Sphere(xPos, yPos, zPos, radius);
+    for (int i = 0; i < num; i++) {
+     //mySphere.addSphereItem( cell );
+  }   
+  //cp = new ControlPoint();
   }
 
   public void draw() {
-      background(abc);
-      stroke(0,255,0);
-  //rect(-200,-200, 400, 400);
-  translate(200,200,0);
-  //noStroke();
-  noFill();
-  rotateY(map(mouseX, 0, width, -PI, PI));
-  rotateX(map(mouseY,0,height, -PI, PI));
-  box(100,100,100);
-  stroke(255,0,0);
-  line(0,0, -200, 0, 0, 200);ellipse(20,20,20,20);
+     background(bg);
+  //cp.update();
+// Uncomment the next line to visualise the control point as a black circle
+//  cp.render();
+  //mySphere.render( cp.getX(), cp.getY() );
+//  if (movCounter-- > 0) {
+//    saveFrame("frames/logo-#####.png");
+//  } else {
+//    exit();
+//  }
   }
   
   private ControlFrame() {
