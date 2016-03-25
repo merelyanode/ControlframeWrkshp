@@ -1,4 +1,6 @@
 /**
+ *based on:
+ *
  * ControlP5 Controlframe
  * with controlP5 2.0 all java.awt dependencies have been removed
  * as a consequence the option to display controllers in a separate
@@ -17,6 +19,8 @@ import java.awt.BorderLayout;
 import controlP5.*;//P5
 import java.util.Date;
 private ControlP5 cp5;//P5
+String textValue = "";
+String timestamp;
 ControlFrame cf;
 int def;
 PImage img_1; //P5
@@ -30,12 +34,24 @@ PImage img_3;//P5
 
 void setup() {
   size(1500, 800,P3D);
+  background(255);
+  img_1 = loadImage("roar2.png");
+  img_2 = loadImage("theQuestion.png");
+  img_3 = loadImage("instructions.png");
+  cf = addControlFrame("extra", 1080,720);
   cp5 = new ControlP5(this);
+  PFont font = createFont("arial",20);//P5
+  cp5 = new ControlP5(this);//P5
+  Date d = new Date();
+  println(d.getTime());
   
-  // by calling function addControlFrame() a
-  // new frame is created and an instance of class
-  // ControlFrame is instanziated.
-  cf = addControlFrame("extra", 800,400);
+  cp5.addTextfield("input")//P5
+     .setPosition(800,600)//P5
+    .setSize(600,40)//P5
+     .setFont(font)//P5
+     .setFocus(true)//P5
+    .setColor(color(255));//P5
+     textFont(font);//P5 
 
   // add Controllers to the 'extra' Frame inside 
   // the ControlFrame class setup() method below.
