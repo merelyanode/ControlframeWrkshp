@@ -308,7 +308,7 @@ class ControlPoint {
     popStyle();
   }
 }
-Í
+
   private ControlFrame() {
   }
 
