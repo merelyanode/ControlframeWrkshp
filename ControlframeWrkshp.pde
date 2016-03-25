@@ -52,6 +52,7 @@ void setup() {
      .setFocus(true)//P5
     .setColor(color(255));//P5
      textFont(font);//P5 
+     
 
   // add Controllers to the 'extra' Frame inside 
   // the ControlFrame class setup() method below.
@@ -65,6 +66,7 @@ void draw() {
   image(img_2, 650,215);
   image(img_3, 850,645);
   fill(0,255,0);
+  text(textValue, 360,180);
 }
 
 ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
@@ -79,8 +81,30 @@ ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
   f.setVisible(true);
   return p;
 }
+public void input(String theText) { //P5
 
+  //public void enteryourphrase(String theText) {
+  // automatically receives results from controller input
+  println("a mf textfield event for controller 'input' : "+theText);//P5
+   Table table = loadTable("zooMockUpCSV.csv","header");//P5
+  //String s = table.getString(1, 1);   // s now has the value//P5
+  //println(s);//P5
+  timestamp =  nf(month(),2) + "-" + nf(day(),2)  + "-" + year()+ "-"  
+  + nf(hour(),2) + nf(minute(),2); 
+  ///+ nf(second(),2);
+  println(timestamp); //P5
+  TableRow newRow = table.addRow(); //P5
+// Set the values of that row
+//newRow.setInt("Year", 2013);
+//newRow.setFloat("PercentCurrentSmokers", 25.6);
+newRow.setString("PHRASE", theText);//P5
+newRow.setString("TIMESTAMP", timestamp);//P5
+saveTable(table, "data/zooMockUpCSV.csv");//P5
 
+    } 
+public void clear() {//P5
+  cp5.get(Textfield.class,"textValue").clear();//P5 
+}
 // the ControlFrame class extends PApplet, so we 
 // are creating a new processing applet inside a
 // new frame with a controlP5 object loaded
