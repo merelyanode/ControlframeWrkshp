@@ -29,7 +29,7 @@ PImage img_3;//P5
  
 
 void setup() {
-  size(400, 400,P3D);
+  size(1500, 800,P3D);
   cp5 = new ControlP5(this);
   
   // by calling function addControlFrame() a
