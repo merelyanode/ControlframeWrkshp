@@ -33,7 +33,7 @@ PImage img_3;//P5
  
 
 void setup() {
-  size(1500, 800,P3D);
+  size(1500, 800);
   background(255);
   img_1 = loadImage("roar2.png");
   img_2 = loadImage("theQuestion.png");
@@ -45,7 +45,8 @@ void setup() {
   Date d = new Date();
   println(d.getTime());
   
-  cp5.addTextfield("")//P5
+  cp5 = new ControlP5(this);
+  cp5.addTextfield("input")//P5
      .setPosition(800,600)//P5
     .setSize(600,40)//P5
      .setFont(font)//P5
@@ -68,21 +69,19 @@ void draw() {
   fill(0,255,0);
   text(textValue, 360,180);
 }
-
-ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
-  Frame f = new Frame(theName);
-  ControlFrame p = new ControlFrame(this, theWidth, theHeight);
-  f.add(p);
-  p.init();
-  f.setTitle(theName);
-  f.setSize(p.w, p.h);
-  f.setLocation(100, 100);
-  f.setResizable(false);
-  f.setVisible(true);
-  return p;
+public void clear() {
+  cp5.get(Textfield.class,"textValue").clear();//P5 
 }
-public void input(String theText) { //P5
 
+void controlEvent(ControlEvent theEvent) {
+  if(theEvent.isAssignableFrom(Textfield.class)) {
+    println("controlEvent: accessing a string from controller '"
+            +theEvent.getName()+"': "
+            +theEvent.getStringValue()
+            );
+  }
+}
+public void input(String theText) {
   //public void enteryourphrase(String theText) {
   // automatically receives results from controller input
   println("a mf textfield event for controller 'input' : "+theText);//P5
@@ -102,9 +101,21 @@ newRow.setString("TIMESTAMP", timestamp);//P5
 saveTable(table, "data/zooMockUpCSV.csv");//P5
 
     } 
-public void clear() {//P5
-  cp5.get(Textfield.class,"textValue").clear();//P5 
+
+ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
+  Frame f = new Frame(theName);
+  ControlFrame p = new ControlFrame(this, theWidth, theHeight);
+  f.add(p);
+  p.init();
+  f.setTitle(theName);
+  f.setSize(p.w, p.h);
+  f.setLocation(100, 100);
+  f.setResizable(false);
+  f.setVisible(true);
+  return p;
 }
+
+
 // the ControlFrame class extends PApplet, so we 
 // are creating a new processing applet inside a
 // new frame with a controlP5 object loaded
