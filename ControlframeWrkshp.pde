@@ -2,18 +2,13 @@
  *based on:
  *
  * ControlP5 Controlframe
+ * with controlP5 2.0 all java.awt dependencies have been removed
+ * as a consequence the option to display controllers in a separate
+ * window had to be removed as well. 
+ * this example shows you how to create a java.awt.frame and use controlP5
  *
  * by Andreas Schlegel, 2012
  * www.sojamo.de/libraries/controlp5
- *
- * and adaptated from Gauden Galea
- *
- * after the tutorial by Jer Thorp
- * at http://blog.blprnt.com/blog/blprnt/processing-tutorial-spherical-coordinates
- * Jer's code released under CC-GNU GPL license v2.0 or later,
- * The license is viewable here: http://creativecommons.org/licenses/GPL/2.0/
- *
- * Adapted code here is also released under CC-GNU GPL license v2.0 or later
  *
  */
 
@@ -31,30 +26,6 @@ int def;
 PImage img_1; //P5
 PImage img_2; //P5
 PImage img_3;//P5
-  int w, h;
-  int abc = 100;
-  int cell = 10; // diameter of particles
-  float radius = 140; // radius of large sphere
-  int num = 300; // number of spheres
-
-  //color bg = color(212, 237, 244); // default background color
-  color bg = color(0, 0, 0); // default background color
-  PImage[] backdrop = new PImage[2]; // array of background images
-  int backdropIndex = 0; // start with the first backdrop in the array
-
-  //Sphere mySphere; // the main actor, container for all the little particles
-  float xPos, yPos, zPos; // coordinates of centre of large sphere
-
-  //ControlPoint cp; // its position at any point determines position of the sphere
-  //   In LOOPING mode, the control point:
-  //   -- turns on a fixed circle
-  //   -- does not respond to mouse movements
-  //   In CONTROLLING mode, the control point:
-  //   -- works like a bouncing ball (reflecting off the sides of the frame)
-  //   -- responds to mouse movements
-  int LOOPING = 0;
-  int CONTROLLING = 1;
-  int movCounter = 1501;
 
 //String textValue = "";//P5
 //String timestamp;//P5
@@ -62,7 +33,7 @@ PImage img_3;//P5
  
 
 void setup() {
-  size(1500, 800,P3D);
+  size(1500, 800);
   background(255);
   img_1 = loadImage("roar2.png");
   img_2 = loadImage("theQuestion.png");
@@ -137,7 +108,7 @@ ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
   f.add(p);
   p.init();
   f.setTitle(theName);
-  //f.setSize(p.w, p.h);
+  f.setSize(p.w, p.h);
   f.setLocation(100, 100);
   f.setResizable(false);
   f.setVisible(true);
@@ -149,28 +120,17 @@ ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
 // are creating a new processing applet inside a
 // new frame with a controlP5 object loaded
 public class ControlFrame extends PApplet {
-  //UNCOMMENT SPHERE MY SPHERE | CONTROLPOINT.CP | MY SPHERE = | CP = NEW
 
+  int w, h;
 
+  int abc = 100;
   
   public void setup() {
-    size(1920, 1200,P3D);
-    smooth();
-  noStroke();
-  lights();
-
-  backdrop[0] = loadImage("201011-tagline-00-1024x768.png");
-  backdrop[1] = loadImage("20100920-1024x768.png");
-
-  xPos = 550;
-  yPos = 330;
-  zPos = 370;
-  //mySphere = new Sphere(xPos, yPos, zPos, radius);
-  for (int i = 0; i < num; i++) {
-    //mySphere.addSphereItem( cell );
-  }   
-  //cp = new ControlPoint();
-    
+    size(w, h,P3D);
+    frameRate(25);
+   // cp5 = new ControlP5(this);
+    //cp5.addSlider("abc").setRange(0, 255).setPosition(10,10);
+   // cp5.addSlider("def").plugTo(parent,"def").setRange(0, 255).setPosition(10,30);
   }
 
   public void draw() {
@@ -208,4 +168,3 @@ public class ControlFrame extends PApplet {
 
   
 }
-
