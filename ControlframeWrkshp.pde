@@ -31,8 +31,9 @@ PImage img_3;//P5
 //int i;
 int cell = 10; // diameter of particles
 
-// UNDO: SPHERE MYSPHERE | CONTROLPOINT.CP |CP = NEW | SPHERE - NEW | SHPERE.ADD |CP SET |CP TOGGLE
-
+// UNDO: SPHERE MYSPHERE | CONTROLPOINT.CP |CP = NEW | SPHERE - NEW | SHPERE.ADD |CP SET |CP TOGGLE |SPHEREITEM
+//SI.PARENTSPHERE |  si.theta = TWO_PI * u; | si.phi = acos(2 * v - 1);// set size |si.itemSize = random(1, diam);
+// items.add(items.size(), si);|si.init();
 float radius = 140; // radius of large sphere
 int num = 300; // number of spheres
 
@@ -306,6 +307,158 @@ class ControlPoint {
     ellipse(0,0, 5, 5);
     popMatrix();
     popStyle();
+  }
+}
+class Sphere {
+  float xPos; //X Position of the Sphere
+  float yPos; //Y Position of the Sphere
+  float zPos; //Z Position of the Sphere
+  float radius; //Radius of the Sphere
+  ArrayList items = new ArrayList(); //List of all of the items contained in the Sphere
+  PImage icon; // holds the icon of the action plan logo
+
+  int CIRCLE = 0;
+  int ICON = 1;
+  int mode = CIRCLE;
+
+  Sphere(float xPos, float yPos, float zPos, float radius) { 
+    this.xPos = xPos; //X Position of the Sphere
+    this.yPos = yPos; //Y Position of the Sphere
+    this.zPos = zPos; //Z Position of the Sphere
+    this.radius = radius; //Radius of the Sphere
+    icon = loadImage("icon.png");
+  }
+  
+  public void toggleMode() {
+    mode = (mode == CIRCLE) ? ICON : CIRCLE;
+  }
+
+  public void addSphereItem(int diam) {
+    //Make a new SphereItem
+//SphereItem si = new SphereItem();
+    //Set the parent sphere
+    //si.parentSphere = this;
+    //Set random values for the spherical coordinates
+    // using the method on http://mathworld.wolfram.com/SpherePointPicking.html
+    float u = random(0,1);
+    float v = random(0,1);
+    //si.theta = TWO_PI * u;
+    //si.phi = acos(2 * v - 1);
+    // set size
+    //si.itemSize = random(1, diam);
+    //Add the new sphere item to the end of our ArrayList
+    //items.add(items.size(), si);
+    //si.init();
+  }
+
+  public void render(float x, float y) {
+    //Mark our position in 3d space
+    pushMatrix();
+    //Move to the center point of the sphere
+    translate(xPos, yPos, zPos);
+    float phi = map(x, 0, width, 0, TWO_PI);
+    rotateY(phi);
+    float theta = map(y, 0, width, 0, TWO_PI);
+    rotateX(theta);
+    // render the inner mesh as a symbol of the globe
+    //renderMesh();
+    //Render each SphereItem
+    for (int i = 0; i < items.size(); i ++) {
+      SphereItem si = (SphereItem) items.get(i);
+      si.render(mode);
+    };
+    //Go back to our original position in 3d space
+    popMatrix();
+  }
+
+  public void renderMesh() {
+    // Draw the inner circles of longitude
+    int steps = 10;
+    pushStyle();
+    pushMatrix();
+    noFill();
+    stroke(150);
+    float angle = PI/steps;
+    for (int i = 0; i < steps; i++) {
+      rotateY( angle );
+      ellipse(0, 0, radius*2-20, radius*2-20);
+    }
+    popMatrix();
+    popStyle();
+  }
+}
+class SphereItem {
+  Sphere parentSphere; //Sphere object that holds this item
+
+  int CIRCLE = 0;
+  int ICON = 1;
+  int mode = CIRCLE;
+
+  //Spherical Coordinates
+  float radius;
+  float theta;
+  float phi;
+  //Speed properties
+  float thetaSpeed = 0;
+  float phiSpeed = 0;
+  //Size and color
+  float itemSize;
+  // List of possible colours
+  ArrayList colors = new ArrayList();
+  color clr;
+
+  public void SphereItem() {
+  }
+
+  public void init() {  
+    color[] colors = {
+      color(129,195,65,175), // XL
+      color(245,130,32,175), // XL,
+      //color(27, 86, 162), // dark blue circle 1
+      //color(235, 0, 139), // purple circle 2
+      //color(79, 116, 186) // medium blue circle 3
+    };
+    //Set the fill colour
+    clr = colors [ (int) random(0, colors.length) ];
+    //clr1 = color(129,195,65);
+    //clr2 = color(245,130,32);
+  }
+
+  public void render(int m) {
+    //Get the radius from the parent Sphere
+    float r = parentSphere.radius;
+    //Convert spherical coordinates into Cartesian coordinates
+    float x = cos(theta) * sin(phi) * r;//r/3;
+    float y = sin(theta) * sin(phi) * r;//r/2;
+    float z = cos(phi) * r;//r/3;
+    //Mark our 3d space
+    pushMatrix();
+    //Move to the position of this item
+    translate(x,y,z);
+    rotateY(-phi); // these two rotate functions might be changed to find tangent plane
+    rotateZ(-phi);
+    if (m == CIRCLE) {
+      fill( clr ); 
+      noStroke();
+      //Draw a circle
+       ellipse(0,0,itemSize,itemSize);
+       //sphere(itemSize);
+      //float sphereSize = random(5,20);
+       //sphere(sphereSize);
+      //Draw a sphere
+      //float dsize = random(5,20);
+      //for (int i = 0; i < 5; i++) {
+        //sphere(dsize);
+     // }
+      
+      
+    } 
+    else {
+      // Put up a bitmap representation of the logo
+      image(parentSphere.icon, 0, 0, itemSize, itemSize);
+    }
+    //Go back to our position in 3d space
+    popMatrix();
   }
 }
 
