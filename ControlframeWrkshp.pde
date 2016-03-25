@@ -45,7 +45,7 @@ void setup() {
   Date d = new Date();
   println(d.getTime());
   
-  cp5.addTextfield("input")//P5
+  cp5.addTextfield("")//P5
      .setPosition(800,600)//P5
     .setSize(600,40)//P5
      .setFont(font)//P5
@@ -59,36 +59,12 @@ void setup() {
   
 }
 
-/*
-void setup() {
-  //define the second frame and set up/draw? the form field
- size(1500, 800); 
- cp5 = new ControlP5(this);//P5
-    cf = addControlFrame("extra", 800,400);
-  cp5.addTextfield("input")//P5
-     .setPosition(800,600)//P5
-    .setSize(600,40)//P5
-     .setFocus(true)//P5
-    .setColor(color(255));//P5 
-   
-
-}
-*/
-
-
-
 
 void draw() {
-  pushStyle();
-  background(def);
-  noStroke();
-  fill(150,0,0);
-  ellipse(20,20,20,20);
-  popStyle();
-  pushMatrix();
-  translate(100,100,0);
-  sphere(35);
-  popMatrix();
+  image(img_1, 5, 0);
+  image(img_2, 650,215);
+  image(img_3, 850,645);
+  fill(0,255,0);
 }
 
 ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
