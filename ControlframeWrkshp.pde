@@ -29,11 +29,9 @@ PImage img_3;//P5
 //String textValue = "";//P5
 //String timestamp;//P5
 //int i;
+/*
 int cell = 10; // diameter of particles
 
-// UNDO: SPHERE MYSPHERE | CONTROLPOINT.CP |CP = NEW | SPHERE - NEW | SHPERE.ADD |CP SET |CP TOGGLE |SPHEREITEM
-//SI.PARENTSPHERE |  si.theta = TWO_PI * u; | si.phi = acos(2 * v - 1);// set size |si.itemSize = random(1, diam);
-// items.add(items.size(), si);|si.init();
 float radius = 140; // radius of large sphere
 int num = 300; // number of spheres
 
@@ -42,9 +40,9 @@ color bg = color(0, 0, 0); // default background color
 PImage[] backdrop = new PImage[2]; // array of background images
 int backdropIndex = 0; // start with the first backdrop in the array
 
-//Sphere mySphere; // the main actor, container for all the little particles
+Sphere mySphere; // the main actor, container for all the little particles
 float xPos, yPos, zPos; // coordinates of centre of large sphere
-//ControlPoint cp; // its position at any point determines position of the sphere
+ControlPoint cp; // its position at any point determines position of the sphere
 //   In LOOPING mode, the control point:
 //   -- turns on a fixed circle
 //   -- does not respond to mouse movements
@@ -55,7 +53,7 @@ int LOOPING = 0;
 int CONTROLLING = 1;
 
 int movCounter = 1501;
-
+*/
 void setup() {
   size(1500, 800);
   background(255);
@@ -63,7 +61,7 @@ void setup() {
   img_2 = loadImage("theQuestion.png");
   img_3 = loadImage("instructions.png");
  
-  cf = addControlFrame("extra", 1920,1200);
+  cf = addControlFrame("ZooCloud", 1024,768);
   cp5 = new ControlP5(this);
   PFont font = createFont("arial",20);//P5
   cp5 = new ControlP5(this);//P5
@@ -145,7 +143,29 @@ ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
 // are creating a new processing applet inside a
 // new frame with a controlP5 object loaded
 public class ControlFrame extends PApplet {
+int cell = 10; // diameter of particles
 
+float radius = 140; // radius of large sphere
+int num = 300; // number of spheres
+
+//color bg = color(212, 237, 244); // default background color
+color bg = color(0, 0, 0); // default background color
+PImage[] backdrop = new PImage[2]; // array of background images
+int backdropIndex = 0; // start with the first backdrop in the array
+
+Sphere mySphere; // the main actor, container for all the little particles
+float xPos, yPos, zPos; // coordinates of centre of large sphere
+ControlPoint cp; // its position at any point determines position of the sphere
+//   In LOOPING mode, the control point:
+//   -- turns on a fixed circle
+//   -- does not respond to mouse movements
+//   In CONTROLLING mode, the control point:
+//   -- works like a bouncing ball (reflecting off the sides of the frame)
+//   -- responds to mouse movements
+int LOOPING = 0;
+int CONTROLLING = 1;
+
+int movCounter = 1501;
   int w, h;
 
   int abc = 100;
@@ -155,17 +175,19 @@ public class ControlFrame extends PApplet {
     smooth();
     noStroke();
     lights();
+    ellipse(100,100,100,100);
     //backdrop[0] = loadImage("201011-tagline-00-1024x768.png");
     //backdrop[1] = loadImage("20100920-1024x768.png");
 
     xPos = 550;
     yPos = 330;
     zPos = 370;
-    //mySphere = new Sphere(xPos, yPos, zPos, radius);
+    mySphere = new Sphere(xPos, yPos, zPos, radius);
     for (int i = 0; i < num; i++) {
-     //mySphere.addSphereItem( cell );
+     mySphere.addSphereItem( cell );
+    
   }   
-  //cp = new ControlPoint();
+  cp = new ControlPoint();
   }
 
   public void draw() {
@@ -181,12 +203,12 @@ public class ControlFrame extends PApplet {
 //  }
   }
   void mouseMoved() {
-  //cp.setTarget( (float) mouseX, (float) mouseY );
+  cp.setTarget( (float) mouseX, (float) mouseY );
 }
   void keyPressed() {
   if (key == 'c' || key == 'C') {
     // toggles the control point between looping and mouse-controlled
-    //cp.toggleMode();
+    cp.toggleMode();
   }
 }
 class ControlPoint {
@@ -326,7 +348,7 @@ class Sphere {
     this.yPos = yPos; //Y Position of the Sphere
     this.zPos = zPos; //Z Position of the Sphere
     this.radius = radius; //Radius of the Sphere
-    icon = loadImage("icon.png");
+    //icon = loadImage("icon.png");
   }
   
   public void toggleMode() {
@@ -335,20 +357,20 @@ class Sphere {
 
   public void addSphereItem(int diam) {
     //Make a new SphereItem
-//SphereItem si = new SphereItem();
+  SphereItem si = new SphereItem();
     //Set the parent sphere
-    //si.parentSphere = this;
+    si.parentSphere = this;
     //Set random values for the spherical coordinates
     // using the method on http://mathworld.wolfram.com/SpherePointPicking.html
     float u = random(0,1);
     float v = random(0,1);
-    //si.theta = TWO_PI * u;
-    //si.phi = acos(2 * v - 1);
+    si.theta = TWO_PI * u;
+    si.phi = acos(2 * v - 1);
     // set size
-    //si.itemSize = random(1, diam);
+    si.itemSize = random(1, diam);
     //Add the new sphere item to the end of our ArrayList
-    //items.add(items.size(), si);
-    //si.init();
+    items.add(items.size(), si);
+    si.init();
   }
 
   public void render(float x, float y) {
@@ -431,6 +453,7 @@ class SphereItem {
     float x = cos(theta) * sin(phi) * r;//r/3;
     float y = sin(theta) * sin(phi) * r;//r/2;
     float z = cos(phi) * r;//r/3;
+    
     //Mark our 3d space
     pushMatrix();
     //Move to the position of this item
